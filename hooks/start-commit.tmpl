@@ -1,0 +1,91 @@
+#!/bin/sh
+
+# START-COMMIT HOOK
+#
+# The start-commit hook is invoked before a Subversion txn is created
+# in the process of doing a commit.  Subversion runs this hook
+# by invoking a program (script, executable, binary, etc.) named
+# 'start-commit' (for which this file is a template)
+# with the following ordered arguments:
+#
+#   [1] REPOS-PATH   (the path to this repository)
+#   [2] USER         (the authenticated user attempting to commit)
+#
+# The default working directory for the invocation is undefined, so
+# the program should set one explicitly if it cares.
+#
+# If the hook program exits with success, the commit continues; but
+# if it exits with failure (non-zero), the commit is stopped before
+# a Subversion txn is created, and STDERR is returned to the client.
+#
+# On a Unix system, the normal procedure is to have 'start-commit'
+# invoke other programs to do the real work, though it may do the
+# work itself too.
+#
+# Note that 'start-commit' must be executable by the user(s) who will
+# invoke it (typically the user httpd runs as), and that user must
+# have filesystem-level permission to access the repository.
+#
+# On a Windows system, you should name the hook program
+# 'start-commit.bat' or 'start-commit.exe',
+# but the basic idea is the same.
+# 
+# The hook program typically does not inherit the environment of
+# its parent process.  For example, a common problem is for the
+# PATH environment variable to not be set to its usual value, so
+# that subprograms fail to launch unless invoked via absolute path.
+# If you're having unexpected problems with a hook program, the
+# culprit may be unusual (or missing) environment variables.
+# 
+# Here is an example hook script, for a Unix /bin/sh interpreter.
+# For more examples and pre-written hooks, see those in
+# the Subversion repository at
+# http://svn.collab.net/repos/svn/trunk/tools/hook-scripts/ and
+# http://svn.collab.net/repos/svn/trunk/contrib/hook-scripts/
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin
+
+REPOS="$1"
+USER="$2"
+TOOLS_DIR=$REPOS/hooks/scripts
+LOCK_FILE=$REPOS/hooks/COMMIT_LOCK
+BLACKLIST_FILE=$REPOS/hooks/BLACK_LIST
+
+if [ -f $LOCK_FILE ]; then
+    if [ -s $LOCK_FILE ]; then
+        # Characters in LOCK_FILE should be utf-8 format!
+        cat $LOCK_FILE >&2
+    else
+        # echo "系统维护中，暂时禁止提交。" >&2
+        echo "Under maintenance, commit not allowed this time." 1>&2
+    fi
+    exit 1
+fi
+
+# anonymous commit not allowed
+if [ "x$USER" = "x" ]; then
+    echo "You must login before you can commit." 1>&2
+    exit 1
+fi
+
+# check black_list
+if [ -s $BLACKLIST_FILE ]; then
+    ( grep -v "^#" "$BLACKLIST_FILE" | grep -iwq "$USER" ) && \
+    echo "$USER is not allowed to commit." >&2 && exit 1
+fi
+
+## 检查 repository 空间占用
+# MAX_SIZE=20480 # 20MB
+# repos_size=`du -s $REPOS | cut -f 1`
+# 
+# if [ $repos_size -gt $MAX_SIZE ]; then
+#  echo "Repositroy $REPOS has exceeded maximum size: $MAX_SIZE" >> $LOCK_FILE
+#  echo "Repositroy $REPOS has exceeded maximum size: $MAX_SIZE" 1>&2
+#  exit 1
+# fi
+
+#$TOOLS_DIR/commit-allower.pl --repository "$REPOS" --user "$USER" || exit 1
+#$TOOLS_DIR/special-auth-check.py --user "$USER" --auth-level 3 || exit 1
+
+# All checks passed, so allow the commit.
+exit 0
