@@ -79,8 +79,6 @@
 <node ID="Freemind_Link_1044753368" 
 	TEXT="Windows：Windows 上是根据扩展名判断可执行文件的，因此需要有扩展名，可以为 .exe 或 .bat"/>
 </node>
-<node ID="Freemind_Link_1529978846" 
-	TEXT="下面分别介绍各个脚本以及可行的定制方案"/>
 <node FOLDED="true" ID="Freemind_Link_437655943" 
 	TEXT="依赖的第三方软件">
 <node FOLDED="true" ID="Freemind_Link_465063730" 
@@ -105,6 +103,14 @@
 	TEXT="make swig-py &amp;&amp; make install-swig-py"/>
 </node>
 </node>
+</node>
+</node>
+<node FOLDED="true" ID="Freemind_Link_1529978846" LINK="http://www.worldhello.net/doc/svn_hooks/hooks" 
+	TEXT="下面分别介绍各个脚本以及可行的定制方案。脚本参见 hooks 目录。">
+<icon BUILTIN="password"/>
+<node ID="Freemind_Link_24574542" 
+	TEXT="由于 Web 服务器限制，有的脚本可能无法从 web 直接下载。可以从 Whodo SVN 版本控制系统中下载。">
+<icon BUILTIN="idea"/>
 </node>
 </node>
 </node>
@@ -254,9 +260,14 @@
 </node>
 </node>
 <node FOLDED="true" ID="Freemind_Link_879969591" 
-	TEXT="定制：强制设置 svn:mime-type，以及对于文本文件设置 svn:eol-style">
+	TEXT="定制：检查新增文件的 svn:mime-type，以及 svn:eol-style 设置">
 <node 
 	TEXT="check-mime-type.pl"/>
+<node FOLDED="true" ID="Freemind_Link_1691230069" 
+	TEXT="check-mime-type.py">
+<node ID="Freemind_Link_1565865854" 
+	TEXT="根据 check-mime-type.pl 改写，主要是为了移植到 Windows 平台"/>
+</node>
 </node>
 <node FOLDED="true" ID="Freemind_Link_1894063315" 
 	TEXT="定制：检查用户权限">
@@ -483,7 +494,7 @@
 	TEXT="[4] PROPNAME     (the property being set on the revision)"/>
 </node>
 <node FOLDED="true" ID="Freemind_Link_251547470" 
-	TEXT="定制：只运行修改 svn:log，不允许修改其他属性 ">
+	TEXT="定制：只允许修改 svn:log，不允许修改其他属性（如 svn:author） ">
 <node ID="Freemind_Link_7308153" 
 	TEXT="if [ &quot;$ACTION&quot; = &quot;M&quot; -a &quot;$PROPNAME&quot; = &quot;svn:log&quot; ]; then exit 0; fi&#xa;&#xa;echo &quot;Changing revision properties other than svn:log is prohibited&quot; &gt;&amp;2&#xa;exit 1&#xa;"/>
 </node>
@@ -574,6 +585,54 @@
 <arrowlink DESTINATION="Freemind_Link_117535430" ENDARROW="Default" ENDINCLINATION="610;0;" ID="Freemind_Arrow_Link_1402780037" STARTARROW="None" STARTINCLINATION="610;0;"/>
 </node>
 </node>
+<node FOLDED="true" ID="Freemind_Link_319999180" POSITION="right" 
+	TEXT="Windows 平台上的 Subversion Hooks">
+<node FOLDED="true" ID="Freemind_Link_962435697" 
+	TEXT="说明">
+<node ID="Freemind_Link_713698479" 
+	TEXT="Windows 上的可执行程序是依据扩展名识别的，因此 Hooks 脚本需要带扩展名。如 pre-commit.bat, 或者 pre-commit.exe"/>
+<node ID="Freemind_Link_181256137" 
+	TEXT="Windows 平台的 SVN Hooks，仍然沿用了 Unix 的脚本，因而需要安装 Perl, Python 等软件"/>
+<node ID="Freemind_Link_1401676405" 
+	TEXT="更多的采用 Python 脚本，因为一些 Perl 脚本用到了命令管道等没有移植到 Windows 平台的 Perl Feature。"/>
+<node ID="Freemind_Link_335852987" 
+	TEXT="代码下载，参见">
+<arrowlink DESTINATION="Freemind_Link_1529978846" ENDARROW="Default" ENDINCLINATION="620;0;" ID="Freemind_Arrow_Link_1642162350" STARTARROW="None" STARTINCLINATION="620;0;"/>
+</node>
+</node>
+<node FOLDED="true" ID="Freemind_Link_817594202" 
+	TEXT="pre-commit.bat">
+<node FOLDED="true" ID="Freemind_Link_590165311" 
+	TEXT="定制：检查 Commit Log 长度">
+<edge WIDTH="thin"/>
+<node ID="Freemind_Link_234342505" 
+	TEXT="commit_log_check.py"/>
+</node>
+<node FOLDED="true" ID="Freemind_Link_1986187875" 
+	TEXT="定制：检查 Commit Log 内容">
+<edge WIDTH="thin"/>
+<node ID="Freemind_Link_1237060903" 
+	TEXT="commit_log_check.py"/>
+</node>
+<node FOLDED="true" ID="Freemind_Link_947028944" 
+	TEXT="定制：检查新增文件的 svn:mime-type，以及 svn:eol-style 设置">
+<node ID="Freemind_Link_1644449450" 
+	TEXT="check-mime-type.py"/>
+</node>
+</node>
+<node FOLDED="true" ID="Freemind_Link_185206072" 
+	TEXT="pre-revprop-change.bat">
+<node ID="Freemind_Link_1555773834" 
+	TEXT="定制：只允许修改 svn:log，不允许修改其他属性（如 svn:author） "/>
+</node>
+<node FOLDED="true" ID="Freemind_Link_557084760" 
+	TEXT="尚未实现功能">
+<node ID="Freemind_Link_1284603916" 
+	TEXT="由于 subversion 的 Python Binding 在 Windows 平台的移植的困难，很多用到 svn python 模块的脚本没有移植。可以考虑将依赖 subversion python binding 的脚本用 svnlook 重写。"/>
+<node ID="Freemind_Link_1439981208" 
+	TEXT="邮件：可以考虑使用 Cygwin 的 exim, ssmtp 等替代 脚本中的 sendmail"/>
+</node>
+</node>
 <node FOLDED="true" ID="Freemind_Link_1982906981" POSITION="left" 
 	TEXT="关于本文">
 <node FOLDED="true" ID="Freemind_Link_452334831" 
@@ -588,6 +647,11 @@
 </node>
 <node FOLDED="true" ID="Freemind_Link_1726486432" 
 	TEXT="版本">
+<node FOLDED="true" ID="Freemind_Link_1675565747" 
+	TEXT="0.2, 2006/5/8">
+<node ID="Freemind_Link_1763737594" 
+	TEXT="增加 Windows 上的 SVN Hooks 脚本;"/>
+</node>
 <node ID="Freemind_Link_784525211" 
 	TEXT="0.1"/>
 </node>
