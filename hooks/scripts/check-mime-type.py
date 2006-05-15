@@ -22,6 +22,8 @@ if os.name == 'nt':
 else:
     SVNLOOK = '/usr/bin/svnlook'
 
+os.environ['LANG'] = os.environ['LC_ALL'] = 'zh_CN.gbk'
+
 MIN_LENGTH = 5
 
 def main(repos, txn):
@@ -32,11 +34,11 @@ def main(repos, txn):
     padd = re.compile(r'^A.  (.*[^/])$')
 
     for line in os.popen(cmd, 'r').readlines():
-        match = padd.match(line);
+        match = padd.match( line.rstrip("\n") );
         if match:
             groups = match.groups()
             if len(groups) == 1:
-                files_added.append( groups[0].rstrip("\n") );
+                files_added.append( groups[0] );
 
     pmime = re.compile(r'\s*svn:mime-type : (\S+)')
     peol  = re.compile(r'\s*svn:eol-style : (\S+)')
