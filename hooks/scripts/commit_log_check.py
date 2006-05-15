@@ -18,6 +18,8 @@ if os.name == 'nt':
 else:
     SVNLOOK = '/usr/bin/svnlook'
 
+os.environ['LANG'] = os.environ['LC_ALL'] = 'zh_CN.utf8'
+
 MIN_LENGTH = 5
 
 def main(repos, txn):

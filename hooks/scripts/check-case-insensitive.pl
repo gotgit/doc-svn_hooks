@@ -29,7 +29,8 @@ require 5.004; # This is when locale support was added.
 # It should list the file names which are in conflict.  But it does stop the
 # commit. 
 use encoding "utf8";
-$ENV{'LANG'} = 'en_GB.UTF-8';
+$ENV{'LANG'} = 'zh_CN.utf8';
+$ENV{'LC_ALL'} = 'zh_CN.utf8';
 
 # Please check the path to svnlook is correct...
 my $svnlook;

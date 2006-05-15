@@ -23,6 +23,8 @@
 # ====================================================================
 
 $ENV{PATH} = "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin";
+$ENV{'LANG'} = 'zh_CN.utf8';
+$ENV{'LC_ALL'} = 'zh_CN.utf8';
 
 # Turn on warnings the best way depending on the Perl version.
 BEGIN {

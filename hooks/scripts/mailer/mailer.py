@@ -44,7 +44,7 @@ import svn.repos
 import svn.core
 
 SEPARATOR = '=' * 78
-
+os.environ['LANG'] = os.environ['LC_ALL'] = 'zh_CN.utf8'
 
 def main(pool, cmd, config_fname, repos_dir, cmd_args):
   ### TODO:  Sanity check the incoming args
