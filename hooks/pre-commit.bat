@@ -1,6 +1,3 @@
-
-echo on
-
 REM SVN pre-commit hook for Windows
 REM by Jiang Xin <worldhello.net@gmail.com>
 
@@ -27,7 +24,6 @@ REM %PYTHONCMD% %TOOLS_DIR%/check-case-insensitive.py "%REPOS%" "%TXN%" || exit 
 REM # Check that the author of this commit has the rights to perform
 REM # the commit on the files and directories being modified.
 REM %PYTHONCMD% %TOOLS_DIR%/svnperms.py -r "%REPOS%" -t "%TXN%" -f %TOOLS_DIR%/svnperms.conf || exit 1
-
 
 REM # All checks passed, so allow the commit.
 endlocal

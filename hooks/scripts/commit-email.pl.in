@@ -23,6 +23,8 @@
 
 
 $ENV{PATH} = "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin";
+$ENV{'LANG'} = 'zh_CN.UTF8';
+$ENV{'LC_ALL'} = 'zh_CN.UTF8';
 
 # Turn on warnings the best way depending on the Perl version.
 BEGIN {
@@ -53,7 +55,7 @@ my $no_diff_deleted = 1;
 # prints the entire contents of the file.  If you want to save space
 # in the log and email messages by not printing the file, then set
 # $no_diff_added to 1.
-my $no_diff_added = 1;
+my $no_diff_added = 0;
 
 # End of Configuration section.
 ######################################################################
@@ -286,6 +288,7 @@ foreach my $line (@svnlooklines)
 
 # Get the diff from svnlook.
 my @no_diff_deleted = $no_diff_deleted ? ('--no-diff-deleted') : ();
+# Warning: svnlook 1.1.x not support --no-diff-added
 my @no_diff_added = $no_diff_added ? ('--no-diff-added') : ();
 my @difflines = &read_from_process($svnlook, 'diff', $repos,
                                    '-r', $rev, @no_diff_deleted,
@@ -371,7 +374,18 @@ if (@mods)
 push(@body, "Log:\n");
 push(@body, @log);
 push(@body, "\n");
-push(@body, map { /[\r\n]+$/ ? $_ : "$_\n" } @difflines);
+
+my $lenlimit = 1000;
+my $len = scalar(@difflines)-1;
+my $body_extra = "";
+if ($len > $lenlimit)
+  {
+    $len = $lenlimit;
+    $body_extra = "\n... ...\n... ...\n" . (scalar(@difflines)-$len) . " more lines...\n... ...\n... ...\n";
+  }
+
+push(@body, map { /[\r\n]+$/ ? $_ : "$_\n" } @difflines[0..$len]);
+push(@body, $body_extra);
 
 # Go through each project and see if there are any matches for this
 # project.  If so, send the log out.

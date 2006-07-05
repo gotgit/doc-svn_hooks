@@ -29,13 +29,13 @@ require 5.004; # This is when locale support was added.
 # It should list the file names which are in conflict.  But it does stop the
 # commit. 
 use encoding "utf8";
-$ENV{'LANG'} = 'zh_CN.utf8';
-$ENV{'LC_ALL'} = 'zh_CN.utf8';
+$ENV{'LANG'} = 'zh_CN.UTF8';
+$ENV{'LC_ALL'} = 'zh_CN.UTF8';
 
 # Please check the path to svnlook is correct...
 my $svnlook;
 if ($^O eq 'MSWin32') {
-  $svnlook = '"c:\Program Files\subversion\bin\svnlook.exe"';
+  $svnlook = '"c:\\Program Files\\subversion\\bin\\svnlook.exe"';
 } else {
   $svnlook = '/usr/bin/svnlook';
 }
@@ -56,7 +56,7 @@ if ($^O eq 'MSWin32') {
 #
 # On a windows machine add this to pre-commit.bat:
 #
-#  perl <path-to-script>\check-case-insensitive.pl %1 %2
+#  perl <path-to-script>\\check-case-insensitive.pl %1 %2
 #  if errorlevel 1 goto :ERROR
 #  exit 0
 #  :ERROR

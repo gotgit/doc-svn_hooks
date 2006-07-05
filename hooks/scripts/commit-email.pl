@@ -23,8 +23,8 @@
 
 
 $ENV{PATH} = "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin";
-$ENV{'LANG'} = 'zh_CN.utf8';
-$ENV{'LC_ALL'} = 'zh_CN.utf8';
+$ENV{'LANG'} = 'zh_CN.UTF8';
+$ENV{'LC_ALL'} = 'zh_CN.UTF8';
 
 # Turn on warnings the best way depending on the Perl version.
 BEGIN {
@@ -374,7 +374,18 @@ if (@mods)
 push(@body, "Log:\n");
 push(@body, @log);
 push(@body, "\n");
-push(@body, map { /[\r\n]+$/ ? $_ : "$_\n" } @difflines);
+
+my $lenlimit = 1000;
+my $len = scalar(@difflines)-1;
+my $body_extra = "";
+if ($len > $lenlimit)
+  {
+    $len = $lenlimit;
+    $body_extra = "\n... ...\n... ...\n" . (scalar(@difflines)-$len) . " more lines...\n... ...\n... ...\n";
+  }
+
+push(@body, map { /[\r\n]+$/ ? $_ : "$_\n" } @difflines[0..$len]);
+push(@body, $body_extra);
 
 # Go through each project and see if there are any matches for this
 # project.  If so, send the log out.

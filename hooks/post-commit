@@ -52,3 +52,20 @@ TOOLS_DIR=$REPOS/hooks/scripts
 $TOOLS_DIR/commit-email.pl "$REPOS" "$REV" -m "." --from from@mydomain -r noreply@mydomain -s "[Test]" list@mydomain
 
 #$TOOLS_DIR/log-commit.py --repository "$REPOS" --revision "$REV"
+
+############################################################
+#
+# Mantisbt integration ( http://www.worldhello.net )
+#
+############################################################
+SVNLOOK=/usr/bin/svnlook
+SED=/bin/sed
+MANTISBT=/wwwroot/bugs/bugs
+PHP=/usr/bin/php
+
+if [ -f "$MANTISBT/core/checkin.php" ]; then
+  export LC_ALL=zh_CN.utf8
+  commitlog=`$SVNLOOK  log  -r "$REV" "$REPOS" | $SED -e 's/\$/\\\\n/g'`
+  commitdiff=`$SVNLOOK diff -r "$REV" "$REPOS" | head -25 | $SED -e 's/\$/\\\\n/g'`
+  echo -e "$commitlog\n\n****** Source code change ******\nRepository: $REPOS, Revision: $REV.\n\n$commitdiff" | $PHP -q $MANTISBT/core/checkin.php
+fi

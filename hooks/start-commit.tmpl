@@ -56,25 +56,24 @@ if [ -f $LOCK_FILE ]; then
         # Characters in LOCK_FILE should be utf-8 format!
         cat $LOCK_FILE >&2
     else
-        # echo "系统维护中，暂时禁止提交。" >&2
         echo "Under maintenance, commit not allowed this time." 1>&2
     fi
     exit 1
 fi
 
-# anonymous commit not allowed
-if [ "x$USER" = "x" ]; then
-    echo "You must login before you can commit." 1>&2
-    exit 1
-fi
+## anonymous commit not allowed
+#if [ "x$USER" = "x" ]; then
+#    echo "You must login before you can commit." 1>&2
+#    exit 1
+#fi
 
-# check black_list
-if [ -s $BLACKLIST_FILE ]; then
-    ( grep -v "^#" "$BLACKLIST_FILE" | grep -iwq "$USER" ) && \
-    echo "$USER is not allowed to commit." >&2 && exit 1
-fi
+## check black_list
+#if [ -s $BLACKLIST_FILE -a ! -z "$USER" ]; then
+#    ( grep -v "^#" "$BLACKLIST_FILE" | grep -iwq "$USER" ) && \
+#    echo "$USER is not allowed to commit." >&2 && exit 1
+#fi
 
-## 检查 repository 空间占用
+## check free space in repository
 # MAX_SIZE=20480 # 20MB
 # repos_size=`du -s $REPOS | cut -f 1`
 # 

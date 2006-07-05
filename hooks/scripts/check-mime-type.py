@@ -22,7 +22,7 @@ if os.name == 'nt':
 else:
     SVNLOOK = '/usr/bin/svnlook'
 
-os.environ['LANG'] = os.environ['LC_ALL'] = 'zh_CN.utf8'
+os.environ['LANG'] = os.environ['LC_ALL'] = 'zh_CN.UTF8'
 
 MIN_LENGTH = 5
 

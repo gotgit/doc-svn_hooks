@@ -8,11 +8,6 @@
 # For usage, see the usage subroutine or run the script with no
 # command line arguments.
 #
-# $HeadURL: http://svn.collab.net/repos/svn/branches/1.3.x/tools/hook-scripts/propchange-email.pl.in $
-# $LastChangedDate: 2004-06-14 22:29:22 +0200 (Mon, 14 Jun 2004) $
-# $LastChangedBy: breser $
-# $LastChangedRevision: 9986 $
-#    
 # ====================================================================
 # Copyright (c) 2000-2004 CollabNet.  All rights reserved.
 #
@@ -28,6 +23,8 @@
 # ====================================================================
 
 $ENV{PATH} = "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin";
+$ENV{'LANG'} = 'zh_CN.UTF8';
+$ENV{'LC_ALL'} = 'zh_CN.UTF8';
 
 # Turn on warnings the best way depending on the Perl version.
 BEGIN {

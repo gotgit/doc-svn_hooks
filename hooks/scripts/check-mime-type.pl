@@ -42,8 +42,8 @@ use Carp;
 
 # Svnlook path.
 my $svnlook = "/usr/bin/svnlook";
-$ENV{'LANG'} = 'zh_CN.utf8';
-$ENV{'LC_ALL'} = 'zh_CN.utf8';
+$ENV{'LANG'} = 'zh_CN.UTF8';
+$ENV{'LC_ALL'} = 'zh_CN.UTF8';
 
 # Since the path to svnlook depends upon the local installation
 # preferences, check that the required program exists to insure that
