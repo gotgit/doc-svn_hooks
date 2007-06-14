@@ -1,0 +1,9 @@
+# XML_SRCDIR defines the place where XMLs present.
+XML_SRCDIR := .
+
+# XML_INDEX_NAME defines the main XML index page without extension.
+XML_INDEX_NAME := 
+
+# MM_SRC is FreeMind .mm filename
+MM_SRC := svn_hooks.mm
+
