@@ -639,7 +639,7 @@
 	TEXT="作者">
 <node FOLDED="true" ID="Freemind_Link_1545358139" 
 	TEXT="J">
-<node ID="Freemind_Link_1880872410" LINK="http://whodo.worldhello.net/wiki/User:Jiangxin" 
+<node ID="Freemind_Link_1880872410" LINK="http://www.worldhello.net/about" 
 	TEXT="Jiang Xin"/>
 </node>
 <node ID="Freemind_Link_1128278540" 
